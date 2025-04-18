@@ -121,7 +121,10 @@ class PolicyIteration:
                     print(f"報酬: {reward}, ゲーム終了!")
                 break
             if render:
-                self.env.render()
+                if self.env.render_mode == "human":
+                    self.env.render()
+                else:
+                    print(self.env.render())
             if delay > 0:
                 time.sleep(delay)
         self.env.close()
@@ -171,5 +174,7 @@ if __name__ == "__main__":
     print(f"平均報酬: {avg_reward:.3f}")
     print(f"成功率: {success_rate:.2%}")
 
+    env.render_mode = "human"
+
     # ゲーム進行を高速化: レンダリング・ログ出力を無効化
-    policy_iteration.play(render=False, verbose=False)
+    policy_iteration.play(render=True, verbose=True)
