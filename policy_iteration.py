@@ -1,4 +1,4 @@
-# 方策反復法
+# 方策反復法 (ベルマン作用素を計算する)
 
 from typing import cast
 
@@ -33,13 +33,13 @@ class PolicyIteration:
 
     def policy_evaluation(self) -> np.ndarray:
         """
-        方策評価を行う関数
+        方策評価を行うメソッド
         pi: 方策(確率分布), pi[s, a] = P(a|s)
         V: 状態価値関数, V[s] = V(s)
         gamma: 割引率
         ベルマン作用素を計算する
         ベルマン作用素: 状態価値関数を更新する作用素
-        r'\\hat{V}^{\\pi, new} (s) = \\sum_{a} \\pi(a|s) \\sum_{s'} \\sum_{r} P(s', r|s, a) [r + \\gamma \\hat{V}^{\\pi} (s')]'
+        \\hat{V}^{\\pi, new} (s) = \\sum_{a} \\pi(a|s) \\sum_{s'} \\sum_{r} P(s', r|s, a) [r + \\gamma \\hat{V}^{\\pi} (s')]
         """
 
         def bellman_operator(V: np.ndarray) -> np.ndarray:
@@ -60,12 +60,12 @@ class PolicyIteration:
 
     def policy_improvement(self) -> np.ndarray:
         """
-        方策改善を行う関数
+        方策改善を行うメソッド
         pi: 方策(確率分布), pi[s, a] = P(a|s)
         V: 状態価値関数, V[s] = V(s)
         gamma: 割引率
-        r'\\hat{Q}^{\\pi} (s, a) = \\sum_{s'} \\sum_{r} P(s', r|s, a) [r + \\gamma \\hat{V}^{\\pi} (s')]'
-        r'\\pi_new(a|s) = argmax_{a} \\hat{Q}^{\\pi} (s, a)'
+        \\hat{Q}^{\\pi} (s, a) = \\sum_{s'} \\sum_{r} P(s', r|s, a) [r + \\gamma \\hat{V}^{\\pi} (s')]
+        \\pi_new(a|s) = argmax_{a} \\hat{Q}^{\\pi} (s, a)
         """
         self.Q = np.zeros((self.nS, self.nA))
         for s in range(self.nS):
@@ -79,7 +79,7 @@ class PolicyIteration:
 
     def policy_iteration(self) -> np.ndarray:
         """
-        方策反復法を行う関数
+        方策反復法を行うメソッド
         """
         i = 0
         while True:
@@ -96,7 +96,7 @@ class PolicyIteration:
         self, render: bool = False, delay: float = 0.0, verbose: bool = False
     ) -> None:
         """
-        方策を実行する関数
+        方策を実行するメソッド
         """
         import time
 
@@ -130,7 +130,7 @@ class PolicyIteration:
 
     def evaluate(self, episodes: int = 100) -> tuple[float, float]:
         """
-        方策の定量評価を行う関数
+        方策の定量評価を行うメソッド
         episodes: 実行するエピソード数
         返り値: (平均報酬, 成功率)
         """
