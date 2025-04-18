@@ -13,11 +13,11 @@ env: FrozenLakeEnv = gym.make(
     "FrozenLake-v1",
     map_name="4x4",
     is_slippery=True,
-    render_mode="human",
+    render_mode="ansi",
 ).unwrapped  # type: ignore
 
-env.reset(seed=0)
-np.random.seed(0)
+# env.reset(seed=0)
+# np.random.seed(0)
 
 
 class PolicyIteration:
@@ -93,10 +93,13 @@ class PolicyIteration:
             i += 1
         return self.pi
 
-    def play(self) -> None:
+    def play(
+        self, render: bool = False, delay: float = 0.0, verbose: bool = False
+    ) -> None:
         """
         方策を実行する関数
         """
+        import time
 
         def get_position(state: int) -> tuple[int, int]:
             return state // self.env.nrow, state % self.env.ncol
@@ -104,17 +107,23 @@ class PolicyIteration:
         def get_action(action: int) -> str:
             return ["←", "↓", "→", "↑"][action]
 
-        print("ゲーム開始!")
+        if verbose:
+            print("ゲーム開始!")
 
         state, _ = self.env.reset()
         while True:
             action = int(np.argmax(self.pi[state]))
-            print(f"場所: {get_position(state)}, 行動: {get_action(action)}")
+            if verbose:
+                print(f"場所: {get_position(state)}, 行動: {get_action(action)}")
             state, reward, terminated, truncated, _ = self.env.step(action)
             if terminated or truncated:
-                print(f"報酬: {reward}, ゲーム終了!")
+                if verbose:
+                    print(f"報酬: {reward}, ゲーム終了!")
                 break
-            self.env.render()
+            if render:
+                self.env.render()
+            if delay > 0:
+                time.sleep(delay)
         self.env.close()
 
     def evaluate(self, episodes: int = 100) -> tuple[float, float]:
@@ -157,9 +166,10 @@ if __name__ == "__main__":
     print(pl.DataFrame(policy_iteration.pi))
 
     # 方策性能評価
-    avg_reward, success_rate = policy_iteration.evaluate(100)
-    print(f"\n方策性能評価(100エピソード)")
+    avg_reward, success_rate = policy_iteration.evaluate(1000)
+    print("\n方策性能評価(1000エピソード)")
     print(f"平均報酬: {avg_reward:.3f}")
     print(f"成功率: {success_rate:.2%}")
 
-    policy_iteration.play()
+    # ゲーム進行を高速化: レンダリング・ログ出力を無効化
+    policy_iteration.play(render=False, verbose=False)
