@@ -8,6 +8,8 @@ import polars as pl
 from gymnasium.envs.toy_text.frozen_lake import FrozenLakeEnv
 from gymnasium.spaces import Discrete
 
+pl.Config.set_tbl_rows(20)
+
 # 環境の作成
 env: FrozenLakeEnv = gym.make(
     "FrozenLake-v1",
@@ -15,9 +17,6 @@ env: FrozenLakeEnv = gym.make(
     is_slippery=True,
     render_mode="ansi",
 ).unwrapped  # type: ignore
-
-# env.reset(seed=0)
-# np.random.seed(0)
 
 
 class PolicyIteration:
@@ -157,6 +156,7 @@ class PolicyIteration:
 
 
 if __name__ == "__main__":
+    env.render_mode = "ansi"
     # 初期化・実行コード
     print("Policy Iteration: 方策反復法")
     policy_iteration = PolicyIteration(env)
