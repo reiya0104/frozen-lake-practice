@@ -1,0 +1,22 @@
+{
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.experiments.optInto": [
+    "pythonTestAdapter"
+  ],
+  "python.analysis.extraPaths": [
+    "./src"
+  ],
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "rust-analyzer.server.extraEnv": {
+    "PYO3_USE_ABI3_FORWARD_COMPATIBILITY": "1",
+    "CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG": "true",
+    "PYTHON_SYS_EXECUTABLE": "/home/pellpell/dev/game/reversi_rl/.venv/bin/python"
+  }
+}

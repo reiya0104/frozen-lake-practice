@@ -1,0 +1,27 @@
+[project]
+name = "frozen-lake"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "reiya0104",email = "reiya010408@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool]
+[tool.poetry]
+[tool.poetry.dependencies]
+gymnasium = {extras = ["toy-text"], version = "^1.1.1"}
+pandas = "^2.2.3"
+polars = "^1.27.1"
+
+[tool.poetry.group.dev]
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+mypy = "^1.15.0"
+ruff = "^0.11.6"
+
