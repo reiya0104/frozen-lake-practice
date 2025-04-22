@@ -1,0 +1,12 @@
+{
+    "best_value": 409.6,
+    "best_params": {
+        "learning_rate": 0.0007054705363720465,
+        "gamma": 0.9273533122671769,
+        "epsilon": 0.24889896013870266,
+        "epochs": 13,
+        "batch_size": 101,
+        "hidden_dim": 241
+    },
+    "n_trials": 50
+}
