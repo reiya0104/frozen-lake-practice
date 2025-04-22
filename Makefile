@@ -1,7 +1,8 @@
 lint:
-	ruff check . --fix
+	poetry run mypy . --explicit-package-bases
+	poetry run ruff check . --fix
 
 format:
-	ruff format . --in-place
+	poetry run ruff format . --in-place
 
 
