@@ -15,7 +15,7 @@ build-backend = "poetry.core.masonry.api"
 [tool]
 [tool.poetry]
 [tool.poetry.dependencies]
-gymnasium = {extras = ["toy-text"], version = "^1.1.1"}
+gymnasium = {extras = ["other"], version = "^1.1.1"}
 pandas = "^2.2.3"
 polars = "^1.27.1"
 torch = "^2.6.0"
@@ -23,6 +23,7 @@ matplotlib = "^3.10.1"
 optuna = "^4.3.0"
 plotly = "^6.0.1"
 scikit-learn = "^1.6.1"
+pygame = "^2.6.1"
 
 [tool.poetry.group.dev]
 [tool.poetry.group.dev.dependencies]
