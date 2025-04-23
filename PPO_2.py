@@ -2,6 +2,8 @@ from typing import List, TypedDict
 
 import gymnasium as gym
 from gymnasium.wrappers import RecordVideo
+from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 
 class ModelConfig(TypedDict):
@@ -36,7 +38,7 @@ print(f"環境の行動空間: {env.action_space}")
 def before_training(env: gym.Env) -> None:
     # 学習前の動画を保存するための設定
     before_training_path = "before_training"
-    env = RecordVideo(env, before_training_path)
+    env = RecordVideo(env, before_training_path, episode_trigger=lambda x: True)
 
     env.reset()
 
@@ -50,4 +52,30 @@ def before_training(env: gym.Env) -> None:
     env.close()
 
 
-before_training(env)
+# before_training(env)
+
+
+def main_training(env: gym.Env) -> None:
+    # 学習
+    vec_env = DummyVecEnv([lambda: env])
+    model = PPO("MlpPolicy", vec_env, verbose=1)
+    model.learn(total_timesteps=30000)
+
+    # 学習後の動画を保存
+    after_training_path = "after_training"
+    video_env = RecordVideo(
+        vec_env.envs[0], after_training_path, episode_trigger=lambda x: True
+    )
+
+    observation, _ = video_env.reset()
+    done = False
+    while not done:
+        action, _ = model.predict(observation)
+        observation, _, terminated, truncated, _ = video_env.step(action)
+        done = terminated or truncated
+
+    video_env.close()
+
+
+if __name__ == "__main__":
+    main_training(env)
